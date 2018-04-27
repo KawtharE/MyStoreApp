@@ -1,0 +1,444 @@
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+body{
+	margin: auto;
+	color: #263238;
+	font-family: 'PT Serif', serif;
+}
+.bbm-modal__topbar, .bbm-modal__section, .bbm-modal__bottombar{
+	color: #263238;
+	font-family: 'PT Serif', serif;	
+}
+.bbm-modal__bottombar{
+	text-align: center;
+}
+header{
+	color: #00695C;
+	text-align: center;
+}
+fieldset{
+	margin: 5vh 5vw;
+	padding: 3vh 3vw;
+	border-radius: 5px;
+	border-color: #CFD8DC;
+}
+#fieldset1 > legend{
+	font-size: 1.4em;
+}
+.header{
+	cursor: pointer;
+	padding-left: 3vw;
+	padding-top: 2vh;
+	padding-bottom: 2vh;
+	font-size: 1.4em;
+	color: #00BFA5;
+}
+hr{
+	height: 10px;
+	border: 0;
+	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+/*** Flex on New Store Form ***/
+#store-form{
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;
+	justify-content: flex-start;
+}
+#store-form-image{
+	flex: 1;
+	position: relative;
+}
+#store-form-details{
+	flex: 1;
+}
+/*** Upload Store Image INPUT element Styling ***/
+#store-img{
+	display: none;
+}
+#default-store-img{
+	display: block;
+	width: 100%;
+}
+#upload-store-image-btn{
+	left:0;
+	position: absolute; 
+	bottom: 0; 
+	background: rgba(0, 0, 0, 0.5); /* Black see-through */ 
+	width: 100%;
+	transition: .5s ease;
+	opacity:0;
+	color: #E3F2FD;
+	font-size: 0.9em;
+	padding: 15px;
+	text-align: center;
+}
+#cancel-upload-img{
+	cursor: pointer;
+	position: absolute;
+  	color: #263238;
+	right: 2%;
+	top: 5%;
+	opacity: 0;
+}
+#store-form-image:hover #upload-store-image-btn, #store-form-image:hover #cancel-upload-img{
+	cursor: pointer;
+	opacity: 1;
+}
+/*** New Store Form Styling */
+#store-form-details label{
+	float: left;
+	line-height: 1.2em;
+	margin-top: 2vh;
+	margin-bottom: 1vh;
+	font-weight: bold;
+}
+#store-form-details input{
+	width: 100%;
+	line-height: 1.2em;
+	padding: 1vh 2vw;
+	border-radius: 5px;
+	border: none;
+	background-color: #ECEFF1;
+	color: #009688;
+}
+#store-form-details #new-store-btn{
+	margin-top: 10vh;
+	width: auto;
+	float: right;
+	padding: 1vh 6vw;
+	text-align: center;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: #E0F2F1;
+	background-color: #009688; 
+}
+#store-form-details #new-store-btn:hover{
+	color: #009688;
+	background-color: #E0F2F1;	
+}
+/*** All Stores Styling ***/
+#stores{
+	width: 100%;
+	padding: 0;
+	padding-left: 3vw;
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;
+	flex-wrap: wrap;
+	list-style-type: none;
+}
+#stores > div{
+	width: 31.33%;
+	margin: 1vh 0.5vw;
+	padding: 2vh 2vw;
+	padding-top: 2vh; 
+	border: 1px solid #CFD8DC;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#store-item{
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+}
+#store-item-img{
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+}
+.store-details{
+	width: 100%;
+	margin-top: auto;
+}
+#store-details p{
+	font-style: italic;
+	color: #00BFA5;
+}
+#store-details p i{
+	margin-right: 15px;
+}
+#store-details span{
+	font-size: 0.9em;
+	color: #455A64;
+}
+#store-panel{
+	text-align: center;
+	margin-top: 5vh;
+}
+#store-panel button{
+	background-color: transparent;
+	border: none;
+	color: #00695C;
+	cursor: pointer;
+	line-height: 1.2em;
+	font-size: 1.1em;
+}
+#check-store:hover{
+	color: #0277BD;
+}
+#add-product-store:hover{
+	color: #00C853;
+}
+#edit-store:hover{
+	color: #FDD835;
+}
+#delete-store:hover{
+	color: #E53935;
+}
+img{
+	max-width: 100%;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    
+    /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/*** Check Store's Product Modal Styling ***/
+
+#products{
+	width: 100%;
+	padding: 0;
+	list-style-type: none;	
+}
+#products > div{
+	margin: 2vh 0.5vw;
+	padding: 2vh 2vw; 
+	border: 1px solid #CFD8DC;
+	border-radius: 10px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+#product-panel{
+	text-align: center;
+	margin-top: 5vh;
+}
+#product-panel button{
+	background-color: transparent;
+	border: none;
+	color: #00695C;
+	cursor: pointer;
+	line-height: 1.2em;
+	font-size: 1.1em;
+}
+#edit-product:hover{
+	color: #FDD835;
+}
+#delete-product:hover{
+	color: #E53935;
+}
+#product-item > img{
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 1vh;
+}
+#product-item > #product-details-part > span{
+	color: #00BFA5;
+	font-weight: bold;
+}
+#product-item > #product-details-part > #category{
+	font-style: italic;
+	color: #D32F2F;
+}
+#product-details-part{
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;
+	justify-content: flex-start;
+	margin-top: 2vh;
+}
+#category{
+	flex: 0.9;
+	margin:0;
+}
+#price{
+	flex: 0.1;
+	bottom: 0;
+}
+.bbm-button{
+	background-color: #E53935;
+	color: #FFCDD2;
+	border-radius: 5px;
+	border: none; 
+	font-weight: bold;
+}
+.bbm-button:hover{
+	background-color: #FFCDD2;
+	color:  #E53935;
+	border-color: #E53935;
+}
+#stop{
+	font-size: 1.8em;
+	margin: 0;
+	text-align: center;
+	color: #E53935;
+}
+#delete-confirmation{
+	font-size: 1.2em;
+	text-align: center;
+}
+#delete-form{
+	padding-top: 1vh;
+}
+#delete-product-btn, #delete-btn{
+	position: absolute;
+	bottom: 12vh;
+	right: 1vw;
+	padding: 1vh 2vw;
+	text-align: center;
+	font-weight: bold;
+	color: #E0F2F1;
+	background-color: #009688;
+	border: none;
+	border-radius: 5px;
+}
+#delete-product-btn:hover, #delete-btn:hover{
+	color: #009688;
+	background-color: #E0F2F1;
+	border-color: #009688;
+}
+
+/*** Update Product & Create Product Styling ***/
+#update-product-img, #product-img, #update-store-img{
+	display: none;
+}
+#current-product-img, #image-new-product-form img, #current-store-img{
+	display: block;
+	max-width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+#upload-product-image-btn, #upload-new-product-image-btn, #upload-new-store-img{
+	position: absolute; 
+	top: 92px;
+	right: 30px;
+	left: 30px;
+	background: rgb(0, 0, 0);
+	background: rgba(0, 0, 0, 0.5); /* Black see-through */
+	color: #f1f1f1;
+	transition: .5s ease;
+	opacity:0;
+	color: #E3F2FD;
+	font-size: 0.9em;
+	padding: 15px;
+	text-align: center;
+}
+#cancel-upload-pro-img, #cancel-new-pro-img, #cancel-update-store-img{
+	cursor: pointer;
+	position: absolute;
+  	color: #E53935;
+	right: 29px;
+	top: 74px;
+	opacity: 0;
+}
+#image-product-form:hover #upload-product-image-btn, 
+#image-product-form:hover #cancel-upload-pro-img,
+#image-new-product-form:hover #cancel-new-pro-img,
+#image-new-product-form:hover #upload-new-product-image-btn,
+#update-store-form-img:hover #upload-new-store-img,
+#update-store-form-img:hover #cancel-update-store-img{
+	cursor: pointer;
+	opacity: 1;
+}
+#product-update-form, #new-product-form, #update-store-form{
+	width: 100%;
+	display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+	display: -ms-flexbox;      /* TWEENER - IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;
+	flex-wrap: wrap;
+}
+#image-product-form, #image-new-product-form, #update-store-form-img{
+	width: 100%;
+}
+#product-update-form1, #new-product-form1, #update-store-form1{
+	width: 49%;
+	padding-top: 1vh;
+	padding-right: 1vw;
+}
+#product-update-form2, #new-product-form2, #update-store-form2{
+	width: 49%;
+	padding-top: 1vh;
+	padding-left: 1vw;
+}
+#update-store-description{
+	width: 100%;
+	margin-right: 1vw;
+}
+#product-update-form  label, #new-product-form label, #update-store-form label{
+	line-height: 1.2em;
+	font-weight: bold;
+}
+#product-update-form  input, #new-product-form input, #update-store-form input{
+	padding: 1vh 1vw 1vh 1vw;
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+	width: 100%;
+	border: none;
+	border-radius: 5px;
+	background-color: #ECEFF1;
+	color: #009688;
+}
+#product-update-form > input[type=submit], 
+#new-product-form > input[type=submit], 
+#update-store-form > input[type=submit]{
+	position: absolute;
+	bottom: 65px;
+	right: 40px;
+    padding-right: 2vw;
+    padding-left: 2vw;
+    padding-bottom: 1vh;
+    padding-top: 1vh;
+    width: auto;
+    text-align: center;
+    font-weight: bold;
+    color: #E0F2F1;
+    background-color: #009688;
+}
+#product-update-form > input[type=submit]:hover, 
+#new-product-form > input[type=submit]:hover,
+#update-store-form > input[type=submit]:hover{
+    color: #009688;
+    background-color: #E0F2F1;
+}

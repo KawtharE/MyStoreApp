@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MyStore App | BackboneJS & Flask</title>
+
+	<!-- Backbone.Modal CSS Files -->
+	<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='js/node_modules/backbone.modal/backbone.modal.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='js/node_modules/backbone.modal/backbone.modal.theme.css')}}">
+
+	<!-- Font Awesome Stylesheet Link -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!-- Google Font 'PT Serif' -->
+	<link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
+
+    <!-- My Custom CSS File -->
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}">
+</head>
+<body>
+	<header>
+		<h1>MyStore App - BackboneJS and Flask</h1>
+		<hr>
+	</header>
+	<main id="main">
+		<div class="header">
+			<span>Click to create your own store <i class="fa fa-hand-o-right"></i></span> 
+		</div>
+		<fieldset id="fieldset1">
+			<legend>Create New Store</legend>
+			<div id="new-store">
+			</div>
+		</fieldset>
+		<div id="list-store">
+			<ul id="stores"></ul>
+		</div>
+		<div id="store-modal-panel">
+			<div class="app"></div>
+		</div>
+	</main>
+
+	<!-- Create New Store Form Template -->
+	<script type="text/template" id="store-form-template">
+		<form id="store-form" enctype="multipart/form-data">
+			<fieldset id="store-form-image">
+				<legend>The Store Image</legend>
+				<span id="cancel-upload-img"><i class="fa fa-remove"></i></span>
+				<label for="store-img" id="upload-store-image-btn"><i class="fa fa-cloud-upload"></i> Upload Your Store Image</label>
+				<img src="{{url_for('static', filename='img/stores/store.jpeg')}}" id="default-store-img" alt="The New Store Image">
+				<input type="file" name="store-img" id="store-img">
+			</fieldset>
+			<fieldset id="store-form-details">
+				<legend>The Store Other Details</legend>
+				<label for="store-name">Store Name:</label><br><input type="text" name="store-name" id="store-name" required>
+				<label for="store-owner-name">Store Owner Name:</label><br><input type="text" name="store-owner-name" id="store-owner-name" required>
+				<label for="store-description">Store Description:</label><br><input type="text" name="store-description" id="store-description" required>
+				<input type="submit" id="new-store-btn" value="create">
+			</fieldset>
+		</form>
+	</script>
+
+	<!-- Store Item Template -->
+	<script type="text/template" id="store-template">
+		<li id="store-item">
+			<div id="store-item-img">
+				<img src="{{ url_for('static', filename='img/stores/')}}<%= store.storeImgURL %>" alt="store image">
+			</div>
+			<div class="store-details">
+				<div id="store-details">
+					<h3><%= store.storeName %></h3>
+					<p><i class="fa fa-user-circle"></i><%= store.storeOwnerName %></p>
+					<span><%= store.storeDescription %></span>
+				</div>
+				<div id="store-panel">
+					<button id="check-store" class="tooltip"><i class="fa fa-eye"></i>
+					<span class="tooltiptext">Check out the Products of this Store</span></button>
+					
+					<button id="add-product-store" class="tooltip"><i class="fa fa-plus-square"></i>
+					<span class="tooltiptext">Add new Product to the Store</span></button>
+					
+					<button id="edit-store" class="tooltip"><i class="fa fa-edit"></i>
+					<span class="tooltiptext">Update the Store's details</span></button>
+					
+					<button id="delete-store" class="tooltip"><i class="fa fa-trash"></i>
+					<span class="tooltiptext">Delete This Store</span></button>	
+							
+				</div>
+			</div>
+
+		</li>
+	</script>
+
+	<!-- Update Store Form Template -->
+	<script type="text/template" id="edit-modal-template">
+	    <div class="bbm-modal__topbar">
+	    	<h3 class="bbm-modal__title">Update your Store's Details</h3>
+	    </div>
+	    <div class="bbm-modal__section">
+			<form id="update-store-form" enctype="multipart/form-data">
+				<div id="update-store-form-img">
+					<span id="cancel-update-store-img"><i class="fa fa-remove"></i></span>
+					<label for="update-store-img" id="upload-new-store-img"><i class="fa fa-cloud-upload"></i> Update Your Store Image</label>
+					<img src="" id="current-store-img">
+					<input type="file" name="update-store-img" id="update-store-img">
+				</div>
+				<div id="update-store-form1">
+					<label for="update-store-name">Store Name:</label><br><input type="text" name="update-store-name" id="update-store-name" required>
+				</div>
+				<div id="update-store-form2">
+					<label for="update-store-owner-name">Store Owner Name:</label><br><input type="text" name="update-store-owner-name" id="update-store-owner-name" required>
+				</div>
+
+				<label for="update-store-description">Store Description:</label><br><input type="text" name="update-store-description" id="update-store-description" required>
+				<input type="submit" id="update-btn" value="Update">
+			</form>
+	    </div>
+	    <div class="bbm-modal__bottombar">
+	      <a href="#" class="bbm-button">close</a>
+	    </div>
+	</script>
+
+	<!-- Delete Store Form Template -->
+	<script type="text/template" id="delete-modal-template">
+	    <div class="bbm-modal__topbar">
+	    	<h3 class="bbm-modal__title">Delete your Store</h3>
+	    </div>
+	    <div class="bbm-modal__section">
+	    	<p id="stop">&#128712; &#128712; &#128712;</p>
+		    <p id="delete-confirmation">Are you sure you want to delete your Store?</p>
+		    <form id="delete-form">
+		    	<input type="submit" id="delete-btn" value="Yes, Delete">
+		    </form>
+	    </div>
+	    <div class="bbm-modal__bottombar">
+	      <a href="#" class="bbm-button">close</a>
+	    </div>
+	</script>
+
+	  <!-- Region container -->
+	<script type="text/template" id="modals-template">
+	    <div class="modals-container"></div>
+	</script>
+
+	<!-- Display All Store's Product Template -->
+	<script type="text/template" id="show-modal-template">
+	    <div class="bbm-modal__topbar">
+	    	<h3 class="bbm-modal__title">List of all available Products</h3>
+	    </div>
+	    <div class="bbm-modal__section">
+			<ul id="products"></ul>
+	    </div>
+	    <div class="bbm-modal__bottombar">
+	      <a href="#" class="bbm-button">close</a>
+	    </div>
+	</script>
+
+	<!-- Create New Product Form Template -->
+	<script type="text/template" id="add-product-modal-template">
+	    <div class="bbm-modal__topbar">
+	    	<h3 class="bbm-modal__title">Add new Product to your Store</h3>
+	    </div>
+	    <div class="bbm-modal__section">
+			<form id="new-product-form" enctype="multipart/form-data">
+				<div id="image-new-product-form">
+					<span id="cancel-new-pro-img"><i class="fa fa-remove"></i></span>
+					<label for="product-img" id="upload-new-product-image-btn"><i class="fa fa-cloud-upload"></i> Upload Your Product Image</label>
+					<img src="{{url_for('static', filename='img/products/products-and-services.jpg')}}" id="default-product-img" alt="The New Product Image">
+					<input type="file" name="product-img" id="product-img">
+				</div>
+				<div id="new-product-form1">
+					<label for="product-name">Product Name:</label><br><input type="text" name="product-name" id="product-name" required>
+					<label for="product-categorie">Product Category</label><br><input type="text" name="product-category" id="product-category" required>			
+				</div>
+				<div id="new-product-form2">
+					<label for="product-price">Product Price:</label><br><input type="number" min="1" step="any" name="product-price" id="product-price" required>	
+					<label for="product-description">Product Description:</label><br><input type="text" name="product-description" id="product-description" required>			
+				</div>
+
+				<input type="submit" id="new-product-btn" value="Add">
+			</form>
+	    </div>
+	    <div class="bbm-modal__bottombar">
+	      <a href="#" class="bbm-button">close</a>
+	    </div>
+	</script>
+
+	<!-- Update Product Form Template -->
+	<script type="text/template" id="edit-product-modal-template">
+	    <div class="bbm-modal__topbar">
+	    	<h3 class="bbm-modal__title">Update the Product's Details</h3>
+	    </div>
+	    <div class="bbm-modal__section">
+			<form id="product-update-form" enctype="multipart/form-data">
+				<div id="image-product-form">
+					<span id="cancel-upload-pro-img"><i class="fa fa-remove"></i></span>
+					<label for="update-product-img" id="upload-product-image-btn"><i class="fa fa-cloud-upload"></i> Update The Product's Image:</label>	
+					<img src="" id="current-product-img">
+					<input type="file" name="update-product-img" id="update-product-img">
+				</div>
+				<div id="product-update-form1">
+				<label for="update-product-name">Product Name:</label><br><input type="text" name="update-product-name" id="update-product-name" required>
+				<label for="update-product-categorie">Product Category</label><br><input type="text" name="update-product-category" id="update-product-category" required>
+				</div>
+				<div id="product-update-form2">
+				<label for="update-product-price">Product Price:</label><br><input type="number" min="1" step="any" name="update-product-price" id="update-product-price" required>
+				<label for="update-product-description">Product Description:</label><br><input type="text" name="update-product-description" id="update-product-description" required>
+				</div>
+
+				<input type="submit" id="update-product-btn" value="Update">
+			</form>
+	    </div>
+	    <div class="bbm-modal__bottombar">
+	      <a href="#" class="bbm-button">close</a>
+	    </div>
+	</script>
+
+	<!-- Delete Product Form Template -->
+	<script type="text/template" id="delete-product-modal-template">
+	    <div class="bbm-modal__topbar">
+	    	<h3 class="bbm-modal__title">Delete your Store's Product</h3>
+	    </div>
+	    <div class="bbm-modal__section">
+	    	<p id="stop">&#128712; &#128712; &#128712;</p>
+		    <p id="delete-confirmation">Are you sure you want to delete this Product?</p>
+		    <form id="delete-form">
+		    	<input type="submit" id="delete-product-btn" value="Yes, Delete">
+		    </form>
+	    </div>
+	    <div class="bbm-modal__bottombar">
+	      <a href="#" class="bbm-button">close</a>
+	    </div>
+	</script>
+
+	<!-- Product Item Template -->
+	<script type="text/template" id="product-template">
+		<li id="product-item">
+			<img src="{{ url_for('static', filename='img/products/')}}<%= product.productImgURL %>" alt="product image">
+			<h3><%= product.productName %></h3>
+			<div id="product-details-part">
+				<p id="category"><%= product.productCategory %></p>
+				<span id="price"><%= product.productPrice %>$</span>
+			</div>
+			<p id="description"><%= product.productDescription %></p>
+			<div id="product-panel">
+				<button id="edit-product" class="tooltip"><i class="fa fa-edit"></i>
+				<span class="tooltiptext">Update the Product's details</span></button>
+				<button id="delete-product" class="tooltip"><i class="fa fa-trash"></i>
+				<span class="tooltiptext">Delete This Store</span></button>
+			</div>
+		</li>
+	</script>
+
+	<script src="{{url_for('static', filename='js/node_modules/jquery/dist/jquery.min.js')}}"></script>
+	<script src="{{url_for('static', filename='js/node_modules/underscore/underscore.js')}}"></script>
+	<script src="{{url_for('static', filename='js/node_modules/backbone/backbone.js')}}"></script>
+	<script src="{{url_for('static', filename='js/node_modules/backbone-model-file-upload/backbone-model-file-upload.js')}}"></script>
+
+	<script type="text/javascript" src="{{url_for('static', filename='js/node_modules/backbone.radio/build/backbone.radio.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='js/node_modules/backbone.marionette/lib/backbone.marionette.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='js/node_modules/backbone.modal/backbone.modal.js')}}"></script>
+	<script type="text/javascript" src="{{url_for('static', filename='js/node_modules/backbone.modal/backbone.marionette.modals.js')}}"></script>
+
+	<script src="{{url_for('static', filename='js/models/imgToFile-model.js')}}"></script>
+	<script src="{{url_for('static', filename='js/models/store-model.js')}}"></script>
+	<script src="{{url_for('static', filename='js/collections/store-collection.js')}}"></script>
+	<script src="{{url_for('static', filename='js/routers/router.js')}}"></script>
+	<script src="{{url_for('static', filename='js/models/product-model.js')}}"></script>
+	<script src="{{url_for('static', filename='js/collections/product-collection.js')}}"></script>
+	<script src="{{url_for('static', filename='js/views/product-view.js')}}"></script>
+	<script src="{{url_for('static', filename='js/views/productList-view.js')}}"></script>
+	<script src="{{url_for('static', filename='js/views/storeForm-view.js')}}"></script>
+	<script src="{{url_for('static', filename='js/views/store-view.js')}}"></script>
+	<script src="{{url_for('static', filename='js/views/storeList-view.js')}}"></script>
+	<script src="{{url_for('static', filename='js/views/app-view.js')}}"></script>
+	<script src="{{url_for('static', filename='js/app.js')}}"></script>
+
+</body>
+</html>
