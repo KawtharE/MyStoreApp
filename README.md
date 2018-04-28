@@ -46,8 +46,10 @@ Still you need to install **pip3**, that we will be using to install *Flask* and
       $ pip3 install flask
       $ pip3 install SQLAlchemy
       
- => Now, once you start the project by the following command the project is avalable in your *localhost:5000* 
+ => Now, since you have everything installed start by creating the database, then if you want you can filled it with same fake data, and once you start the project the application will be available in your *localhost:5000* 
  
+      $ python3 database_setup.py
+      $ python3 fakedata.py
       $ python3 project.py
       
 
@@ -233,7 +235,7 @@ So we will be starting by creating these two models, their collections and their
       
 ### 4- Iteration 4: Back-End
 
-**Flask** messions here in our project are resumed in two tasks: 
+**Flask** messions here can be resumed in two main tasks: 
 
 **1- Communicate with the Client side to return the requested data or get the posted data in order to save it:** This type of communication depend from the client side to make an **AJAX** call and pass in the *Flask API URL* in the parameter and the data to post. From **Backbone** saving model data happen whenever we call **model.save(null, [options])** where option can be the url of the API, the method..
 In our Flask API we need the **request module** from flask to use in order to be able to get the data from the client.
@@ -315,8 +317,35 @@ In our Flask API we need the **request module** from flask to use in order to be
 
 ### 5- Iteration 5: Styling
 
+For the last iteration of the project, we have been focusing on the **responsive** of our application, so we have adopted the **Flexbox Pattern**. Now flexbox is a great technique to have your application looking good on different screens, but you need to add all vendor prefixes to make sure that flexbox will work correctly on all browsers:
+
+	display: -webkit-box;      /* iOS 6-, Safari 3.1-6 */
+	display: -moz-box;         /* Firefox 19- */
+	display: -ms-flexbox;      /* IE 10 */
+	display: -webkit-flex;     /* NEW - Chrome */
+	display: flex;
+	
+**Note:** you might notice that we are using the **vh** and **vw** units for margins and padding, well that because **margin-top, margin-bottom, paddin-top,** and **padding-bottom** don't work on **Firefox** when using the flexbox pattern.
+
+**vh:** view heigh
+
+**vw:** view width
+
 ## Summary
 
+**Some Notes about working with BackboneJS**
 
+1- [The Source Code](http://backbonejs.org/docs/backbone.html) is a great place to understand how things works behind the scene.
 
+2- Whenever you need to update the value of a model use this technique:
+
+	var val = _.clone(model.get('attribute'));
+	val = newVal;
+	model.set('attribute', val);
+	
+=> by using the **underscore** method (clone) we keep the attribute of the model at the same reference, that way the **change** and the **change:attribute** events will be triggered successfully otherwise it will not trigger.
+
+3- To avoid firing the event multiple times you can use the **underscore** method (debounce):
+
+	this.listenTo(collection, 'change', _.debounce(this.render, 300));
 
