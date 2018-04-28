@@ -78,9 +78,241 @@ At the beginning of every project we should always think about *How will our fin
 
 ### 2- Iteration 2: General setup
 
+This iteration include two key steps:
 
+**1- Preparing the project directory:** since we will be working with *BackboneJS* and *Flask* we should know that Flask, for sure need a specific organization of the project folder structure however Backbone don't, but it is a good practice even if we were working only with Backbone to have a clear project folder structure and that what most developers do. Backing to the fact that *Flask* do need a specific folder structure, now Flask by default know that **templates** must be in the **template folder** and **CSS, JS and media files** must be in the **static folder**, so we end-up with the following folder structure:
+
+      static
+            |---css
+                  |---main.css
+            |---img
+            |---js
+                  |---collections
+                  |---models
+                  |---routers
+                  |---views
+                  |---app.js
+      templates
+            |---project.html
+      database_setup.py
+      project.py
+  
+**2- Installing technologies:**
+
+###### Back-end technologies:
+
+      $ pip3 install flask
+      $ pip3 install SQLAlchemy
+      
+###### Front-end technologies:
+
+      $ npm install jquery@3.3.1
+      $ npm install underscore
+      $ npm install backbone
+      $ npm install backbone-model-file-upload
+      $ npm install backbone.modal
+      $ npm install backbone.marionette
+      $ npm install backbone.radio
+ 
+ Next we should import all of them at the bottom of the *project.html* page.
 ### 3- Iteration 3: Front-End 
+
+The project essentially need to have two **Models**: **The Store Model** and **The Product Model**.
+
+So we will be starting by creating these two models, their collections and their views files:
+
+      js
+        |---collections
+                  |---product-collection.js
+                  |---store-collection.js
+        |---models
+                  |---product-model.js
+                  |---store-model.js
+        |---routers
+                  |---router.js
+        |---views
+                  |---app-view.js
+                  |---product-view.js
+                  |---productList-view.js
+                  |---store-view.js
+                  |---storeForm-view.js
+                  |---storeList-view.js
+        |---app.js
+ 
+ Now each of these js file have the same structure:
+
+        var app = app || {};
+
+        (function(){
+              ...
+        })();
+        
+**var app = app || {}** => test if the app have already been created otherwise it take a value {}.
+
+**Immediate Invoked Function Expression (IIFE)** => where the code goes and immediately executed.
+
+**Note:** a new attribute should be added to every model, since we are using the **backbone-model-file-upload** library to upload images to the server, so the store and product model will look like this:
+
+	app.Store = Backbone.Model.extend({
+		fileAttribute: 'attachment',
+		default: {
+			id: '',
+			storeName: '',
+			storeImgURL: '',
+			storeOwnerName: '',
+			storeDescription: ''
+		}
+	});
+      
+	app.Product = Backbone.Model.extend({
+		fileAttribute: 'attachment',
+		default: {
+			id: '',
+			storeID: '',
+			productName: '',
+			productImgURL: '',
+			productCategory: '',
+			productPrice: '',
+			productDescription: ''
+		}
+	});
+      
+**The Collection** of each model will fetched from the server when instantiating the collection object of the model, so instead of passing an array of data we will be having an **url** attribute which refer to the *Flask API* that take care in the server side to return all data of the model, in the server.
+
+	app.Stores = Backbone.Collection.extend({
+		model: app.Store,
+		url: '/stores/'
+      });
+	app.Products = Backbone.Collection.extend({
+		model: app.Product,
+		url: '',
+		initialize: function(id){
+			this.url = '/stores/'+id+'/products/';
+		}
+		
+	});
+ 
+ **The Views** of each model have two view levels, *a model view* and *a collection view*, so by defining a *template* for the model we can create the second view level just by iterating over the collection and instantiating a model view for each item.
+ 
+      // Store's Model View  
+      app.StoreView = Backbone.View.extend({
+  		template: _.template($('#store-template').html()),
+            model: app.Store,
+  		initialize: function(){
+  			this.render();
+  		},
+  		render: function(){
+  			this.$el.html(this.template({store: this.model}));
+                  $('#stores').prepend(this.$el);
+  			return this;
+  		}
+      });
+      // Store's Collection View
+	app.StoreListView = Backbone.View.extend({
+		el: '#stores',
+		initialize: function(){
+			this.listenTo(app.storesData, 'change', _.debounce(this.renderUpdate, 300));
+			this.listenTo(app.storesData, 'destroy', _.debounce(this.renderUpdate, 300));
+			this.render();
+		},
+		render: function(){
+			var self = this;
+			_.each(app.storesData.toJSON(), function(item){
+				self.renderStore(item);
+			});
+
+		},
+		renderStore: function(item){
+			var store = new app.StoreView({model: item});
+		},
+		renderUpdate: function(){
+			this.$el.empty();
+			this.render();
+		}
+	});
+      
 ### 4- Iteration 4: Back-End
+
+**Flask** messions here in our project are resumed in two tasks: 
+
+**1- Communicate with the Client side to return the requested data or get the posted data in order to save it:** This type of communication depend from the client side to make an **AJAX** call and pass in the *Flask API URL* in the parameter and the data to post. From **Backbone** saving model data happen whenever we call **model.save(null, [options])** where option can be the url of the API, the method..
+In our Flask API we need the **request module** from flask to use in order to be able to get the data from the client.
+
+**1-1- Save New Store**
+
+      @app.route('/new-store', methods=['POST'])
+      def createNewStore():
+            if 'attachment' not in request.files:
+                  newStore = Store(store_name=request.form.get('storeName'), store_img_url='store.jpeg', store_description=request.form.get('storeDescription'), store_owner_name=request.form.get('storeOwnerName'))
+            else:
+                  file = request.files['attachment']
+                  if file.filename == 'store.png':
+                        newStore = Store(store_name=request.form.get('storeName'), store_img_url='store.jpeg', store_description=request.form.get('storeDescription'), store_owner_name=request.form.get('storeOwnerName'))
+                  elif file and allowed_file(file.filename):
+                        filename = secure_filename(file.filename)
+                        file.save(os.path.join(app.config['UPLOAD_FOLDER_STORES'], filename))
+                        newStore = Store(store_name=request.form.get('storeName'), store_img_url=filename, store_description=request.form.get('storeDescription'), store_owner_name=request.form.get('storeOwnerName'))
+            session.add(newStore)
+            session.commit()
+            return jsonify([newStore.to_json])
+            
+**1-2- Return All Stores**
+
+      @app.route('/stores/')
+      def getAllStores():
+            stores = session.query(Store).all()
+            return jsonify([store.to_json for store in stores])
+ 
+ The **to_json** property, return the model data in **JSON** format.
+ 
+**2- Communicate with the Database to save or retrieve data:** This type of communication require an **ORM** technology to simplify things, so we will be using the **SQLAlchemy**. Now for every Backbone model we will be creating a python Class which will be tied to a table, then after creating a database engine (in our case it is an SQLite database) we will be using the **session instance** to communicate with our database.
+
+      class Store(Base):
+            __tablename__ = 'stores'
+
+            id = Column(Integer, primary_key=True)
+            store_name = Column(String(250), nullable=False)
+            store_img_url = Column(String(250), nullable=False)
+            store_description = Column(String(250), nullable=False)
+            store_owner_name = Column(String(250), nullable=False)
+            
+            @property
+            def to_json(self):
+                  return {
+                        "id": self.id,
+                        "storeName": self.store_name,
+                        "storeImgURL": self.store_img_url,
+                        "storeDescription": self.store_description,
+                        "storeOwnerName": self.store_owner_name
+                  }
+            
+      class Product(Base):
+            __tablename__ = 'products'
+
+            id = Column(Integer, primary_key=True)
+            product_name = Column(String(250), nullable=False)
+            product_img_url = Column(String(250), nullable=False)
+            product_description = Column(String(250), nullable=False)
+            product_price = Column(Integer, nullable=False)
+            product_category = Column(String(250), nullable=False)
+            store_id = Column(Integer, ForeignKey('stores.id'))
+            stores = relationship(Store)
+            
+            @property
+            def to_json(self):
+                  return {
+                        "id": self.id,
+                        "productName": self.product_name,
+                        "productImgURL": self.product_img_url,
+                        "productDescription": self.product_description,
+                        "productPrice": self.product_price,
+                        "productCategory": self.product_category,
+                        "storeID": self.store_id
+                  }
+
+      engine = create_engine('sqlite:///stores.db')
+      Base.metadata.create_all(engine)
+
 ### 5- Iteration 5: Styling
 
 ## Summary
