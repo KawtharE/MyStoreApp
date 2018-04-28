@@ -53,7 +53,36 @@ Still you need to install **pip3**, that we will be using to install *Flask* and
 
         
 
-## Development Iteration
+## Development Iterations
+
+#### 1- Iteration 1: Mock-ups
+
+At the beginning of every project we should always think about *How will our final product look in the eyes of the final user?*, so we need to create a mock-up at the beginning of our development process, first for every page in our application and second for every page **URL**.
+
+.**Home page** --- **URL:** "/" => The Home page contain a form to create new store and a list of all stores in the Database.
+
+.**Store Home page** --- **URL:** "/#stores/store_id/products/" => The Store Home page contain a list of all products of the store with the id *store_id*.
+
+.**New Product page** --- **URL:** "/#stores/store_id/new-product/" => The New Product page contain a form to add new product to the store with the id *store_id*.
+
+.**Update Store's Details page** --- **URL:** "/#stores/store_id/edit/" => The Update Store's Details page contain a form with the store's current details that will be edited it by the user and update it.
+
+.**Delete Store page** --- **URL:** "/#stores/store_id/delete/" => The Delete Store page contain a confirmation form for the user request to delete the store with the id *store_id*.
+
+.**Update Product's Details page** --- **URL:** "/#stores/store_id/products/product_id/edit/" => The Update Product's Details page contain a form with the product's current details that will be edited by the user and updated.
+
+.**Delete Product page** --- **URL:** "/#stores/store_id/products/product_id/delete/" => The Delete Product page contain a confirmation form for the user request to delete the product with the id *product_id* from the store with the id *store_id*.
+
+
+=> You might notice we actually don't have all that bunch of pages in our project, well that refer to to fact that we have written all those pages in one HTML page as **Script Templates** and we have display most of theme as **Modals** by using the **Backbone Marionette Technique".
+
+#### 2- Iteration 2: General setup
+
+
+#### 3- Iteration 3: Front-End 
+#### 4- Iteration 4: Back-End
+#### 5- Iteration 5: Styling
+
 ## Summary
 
 
