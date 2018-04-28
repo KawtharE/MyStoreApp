@@ -55,7 +55,7 @@ Still you need to install **pip3**, that we will be using to install *Flask* and
 
 ## Development Iterations
 
-#### 1- Iteration 1: Mock-ups
+### 1- Iteration 1: Mock-ups
 
 At the beginning of every project we should always think about *How will our final product look in the eyes of the final user?*, so we need to create a mock-up at the beginning of our development process, first for every page in our application and second for every page **URL**.
 
@@ -74,14 +74,14 @@ At the beginning of every project we should always think about *How will our fin
 .**Delete Product page** --- **URL:** "/#stores/store_id/products/product_id/delete/" => The Delete Product page contain a confirmation form for the user request to delete the product with the id *product_id* from the store with the id *store_id*.
 
 
-=> You might notice we actually don't have all that bunch of pages in our project, well that refer to to fact that we have written all those pages in one HTML page as **Script Templates** and we have display most of theme as **Modals** by using the **Backbone Marionette Technique".
+=> You might notice we actually don't have all that bunch of pages in our project, well that refer to to fact that we have written all those pages in one HTML page as **Script Templates** and we have display most of theme as **Modals** by using the **Backbone Marionette Technique**.
 
-#### 2- Iteration 2: General setup
+### 2- Iteration 2: General setup
 
 
-#### 3- Iteration 3: Front-End 
-#### 4- Iteration 4: Back-End
-#### 5- Iteration 5: Styling
+### 3- Iteration 3: Front-End 
+### 4- Iteration 4: Back-End
+### 5- Iteration 5: Styling
 
 ## Summary
 
