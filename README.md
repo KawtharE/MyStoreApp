@@ -4,17 +4,17 @@ Full-Stack project with **BackboneJS v1.3.3** for the Front-end and **Flask v0.1
 
 ## Introduction
 
-Working on **Large Scale Projects** need a good choice of technologies to work with, the main goal is to end up with a **robust, maintainable and bug-free application** that you or any other developer how have the source code can easily add new features to it in the future.
+Working on **Large Scale Projects** need a good choice of technologies to work with, the main goal is to end up with a **robust, maintainable and bug-free application** that you or any other developer who have the source code can easily add new features to it in the future.
 
-A good choice of technologies for your next big project start with thinking to work with one of the amazing **organizational frameworks** since it really makes things a lot easier than you have ever imagined. **BackboneJS** is one of these frameworks that belong to the **MV * Pattern Family** and what is great about it, is the fact that you end-up doing things in your own way in contrast of other organizational library like **AngularJS**, that make you do everything in its way.
+A good choice of technologies for your next big project start with thinking to work with one of the amazing **organizational frameworks or library** since it really makes things a lot easier than you have ever imagined. **BackboneJS** is one of these frameworks that belong to the **MV * Pattern Family** and what is great about it, is the fact that you end-up doing things in your own way in contrast of other organizational framework like **AngularJS**, that make you do everything in its way.
 
-Now for real world project, the presence of **Back-end** in the server side, make  a lot of sense since we need it to communicate with the **Database** where all of the project data exist. For this project we have been working with **Flask**, the pyhon micro-framework and **SQLAlchemy**, the ORM for a full SQL functionality. These two technologies have the advantage of being very flexible.
+Now for real world project, the presence of **Back-end** in the server side, make  a lot of sense since we need it to communicate with the **Database** where all of the project data exist. For this project we have been working with **Flask**, the python micro-framework and **SQLAlchemy**, the ORM for a full SQL functionality. These two technologies have the advantage of being very flexible and simplify a lot of things in the backend.
 
 ## Getting Start With The Project
 
 #### 1- The project main functionalities
 
-For this project we have two models to work with along: Store model and Product model. So the main functionalities of this application will be essentially two as shown next:
+For this project we have two models to work with along: Store model and Product model. So the main functionalities of this application will be essentially divided into two parts as shown next:
 
 ###### CRUD Functions - Store Model
 
@@ -59,7 +59,7 @@ Still you need to install **pip3**, that we will be using to install *Flask* and
 
 ### 1- Iteration 1: Mock-ups
 
-At the beginning of every project we should always think about *How will our final product look in the eyes of the final user?*, so we need to create a mock-up at the beginning of our development process, first for every page in our application and second for every page **URL**.
+At the beginning of every project we should always think about --*How will our final product look in the eyes of the final user?*--, so we need to create a mock-up at the beginning of our development process, first for every page in our application and second for every page **URL**.
 
 -**Home page** --- **URL:** "/" => The Home page contain a form to create new store and a list of all stores in the Database.
 
@@ -82,7 +82,7 @@ At the beginning of every project we should always think about *How will our fin
 
 This iteration include two key steps:
 
-**1- Preparing the project directory:** since we will be working with *BackboneJS* and *Flask* we should know that Flask, for sure need a specific organization of the project folder structure however Backbone don't, but it is a good practice even if we were working only with Backbone to have a clear project folder structure and that what most developers do. Backing to the fact that *Flask* do need a specific folder structure, now Flask by default know that **templates** must be in the **template folder** and **CSS, JS and media files** must be in the **static folder**, so we end-up with the following folder structure:
+**1- Preparing the project directory:** since we will be working with *BackboneJS* and *Flask* we should know that Flask, for sure need a specific organization of the project folder structure however Backbone don't, but it is a good practice even if we were working only with Backbone to have a clear project folder structure and that what most developers do. Backing to the fact that *Flask* do need a specific folder structure, now Flask by default knows that **templates** must be in the **template folder** and **CSS, JS and media files** must be in the **static folder**, so we end-up with the following folder structure:
 
       static
             |---css
@@ -141,7 +141,7 @@ So we will be starting by creating these two models, their collections and their
                   |---storeList-view.js
         |---app.js
  
- Now each of these js file have the same structure:
+ Now, each of these js file have the same structure:
 
         var app = app || {};
 
@@ -179,7 +179,7 @@ So we will be starting by creating these two models, their collections and their
 		}
 	});
       
-**The Collection** of each model will fetched from the server when instantiating the collection object of the model, so instead of passing an array of data we will be having an **url** attribute which refer to the *Flask API* that take care in the server side to return all data of the model, in the server.
+**The Collection** of each model will be fetched from the server when instantiating the collection object of the model, so instead of passing an array of data we will be having an **url** attribute which refer to the *Flask API* that take care, in the server side, of giving back all requested data of the specific model.
 
 	app.Stores = Backbone.Collection.extend({
 		model: app.Store,
@@ -194,7 +194,7 @@ So we will be starting by creating these two models, their collections and their
 		
 	});
  
- **The Views** of each model have two view levels, *a model view* and *a collection view*, so by defining a *template* for the model we can create the second view level just by iterating over the collection and instantiating a model view for each item.
+ **The Views** of each model have two view levels, *a model view* and *a collection view*, so by defining a *template* for the model we can create the second view level just by iterating over the collection and instantiating the model view for each item.
  
       // Store's Model View  
       app.StoreView = Backbone.View.extend({
@@ -237,7 +237,7 @@ So we will be starting by creating these two models, their collections and their
 
 **Flask** messions here can be resumed in two main tasks: 
 
-**1- Communicate with the Client side to return the requested data or get the posted data in order to save it:** This type of communication depend from the client side to make an **AJAX** call and pass in the *Flask API URL* in the parameter and the data to post. From **Backbone** saving model data happen whenever we call **model.save(null, [options])** where option can be the url of the API, the method..
+**1- Communicate with the Client side to return the requested data or get the posted data in order to save it:** This type of communication depend from the client side to make an **AJAX** call and pass in the *Flask API URL* in the parameter and the data to post. From **Backbone** saving model data happen whenever we call **model.save(null, [options])** where options can be the url of the API, the method..
 In our Flask API we need the **request module** from flask to use in order to be able to get the data from the client.
 
 **1-1- Save New Store**
@@ -317,7 +317,7 @@ In our Flask API we need the **request module** from flask to use in order to be
 
 ### 5- Iteration 5: Styling
 
-For the last iteration of the project, we have been focusing on the **responsive** of our application, so we have adopted the **Flexbox Pattern**. Now flexbox is a great technique to have your application looking good on different screens, but you need to add all vendor prefixes to make sure that flexbox will work correctly on all browsers:
+For the last iteration of the project, we have been focusing on the **responsive** of our application, so we have adopted the **Flexbox Pattern**. Now flexbox is a great technique that can be used to make your application looks good on different screens sizes, but you need to add all vendor prefixes to make sure that flexbox will work correctly on all browsers:
 
 	display: -webkit-box;      /* iOS 6-, Safari 3.1-6 */
 	display: -moz-box;         /* Firefox 19- */
@@ -345,7 +345,7 @@ For the last iteration of the project, we have been focusing on the **responsive
 	
 => by using the **underscore** method (clone) we keep the attribute of the model at the same reference, that way the **change** and the **change:attribute** events will be triggered successfully otherwise it will not trigger.
 
-3- To avoid firing the event multiple times you can use the **underscore** method (debounce):
+3- To avoid firing the event multiple times, or what we call it **zombies**, you can use the **underscore** method (debounce):
 
 	this.listenTo(collection, 'change', _.debounce(this.render, 300));
 
